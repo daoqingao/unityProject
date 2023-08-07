@@ -1,18 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
 using System.Threading.Tasks;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
+using Vector2 = UnityEngine.Vector2;
+using Vector3 = UnityEngine.Vector3;
 
 public class AsteroidScript : MonoBehaviour
 {
     // Start is called before the first frame update
 
     private int size;
-    public GameManager gameManager;
-    private int duplicationRate = 2; //split into 2 on destruction
+    [FormerlySerializedAs("gameManager")] public AsteroidManager asteroidManager;
     public bool semaTriggered = false;
     public Rigidbody2D rb;
+    // public GameData gameData;
 
     [SerializeField] private ParticleSystem destroyedParticles;
     void Start()
@@ -25,7 +29,7 @@ public class AsteroidScript : MonoBehaviour
         this.semaTriggered = false;
         this.size = size;
         transform.position = position;
-        
+            
         // rb = gameObject.GetComponent<Rigidbody2D>(); //apparently disabling means the rigidbody would no longer be the same, so we have to reassign everytime
         transform.localScale = 0.8f * size * Vector3.one;
         Vector2 initialDirection = new Vector2(Random.value, Random.value).normalized;
@@ -51,15 +55,15 @@ public class AsteroidScript : MonoBehaviour
                 }
                 if (size > 1)
                 {
-                    for (int i = 0; i < duplicationRate; i++)
+                    for (int i = 0; i < asteroidManager.gameData.astDupRate; i++)
                     {
                         // AsteroidScript newAst = Instantiate(this, transform.position, Quaternion.identity);
-                        gameManager.createPoolAst(size - 1, this.transform.position);
+                        asteroidManager.createPoolAst(size - 1, this.transform.position);
                     }
                 }
-                gameManager.score++;
+                asteroidManager.gameData.score++;
                 // Instantiate(destroyedParticles, transform.position, Quaternion.identity);
-                gameManager.destroyPoolAst(this.gameObject);
+                asteroidManager.destroyPoolAst(this.gameObject);
             }
     }
 

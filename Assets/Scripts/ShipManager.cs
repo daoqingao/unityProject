@@ -4,30 +4,26 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Pool;
+using UnityEngine.Serialization;
 
 public class ShipManager : MonoBehaviour
 {
     // Start is called before the first frame update
 
     private Rigidbody2D shipRigidbody2D;
-
-
-    private float shipAccelSpeed = 20f;
-    private float shipMaxVelSpeed = 20f;
-
     private bool isAlive = true;
     private bool isAccelerating = false;
     private Vector2 accelVector = new Vector2(0,0);
-
-
-    private float bulletSpeed = 10f;
     public Transform bulletSpawner;
     
     [SerializeField]
     public BulletScript bulletPrefab;
+    [SerializeField]
+    public GameData gameData;
+    
+    public bool semaTriggered = false;
 
-
-    public GameManager gameManager;
+    [FormerlySerializedAs("gameManager")] public AsteroidManager asteroidManager;
 
     //all for the sake of iframes
     private SpriteRenderer spriteRenderer;
@@ -78,6 +74,7 @@ public class ShipManager : MonoBehaviour
     {
         if (isAlive)
         {
+            semaTriggered = false;
             handleGetKeyPress();
             handleShooting();
         }
@@ -93,7 +90,7 @@ public class ShipManager : MonoBehaviour
         {
             coneAttack();
         }
-        coneAttack();
+        // coneAttack();
     }
 
     void handleGetKeyPress()
@@ -117,8 +114,8 @@ public class ShipManager : MonoBehaviour
         if (isAlive && isAccelerating)
         {
             // Debug.Log(accelVector);
-            shipRigidbody2D.AddForce(shipAccelSpeed * accelVector);
-            shipRigidbody2D.velocity = Vector2.ClampMagnitude(shipRigidbody2D.velocity, shipMaxVelSpeed);
+            shipRigidbody2D.AddForce(gameData.shipAccelSpeed * accelVector);
+            shipRigidbody2D.velocity = Vector2.ClampMagnitude(shipRigidbody2D.velocity, gameData.shipMaxVelSpeed);
             shipRigidbody2D.transform.Rotate(new Vector3(accelVector.x,accelVector.y,0));
 
             Quaternion toRotation = Quaternion.LookRotation(Vector3.forward, accelVector);
@@ -129,13 +126,15 @@ public class ShipManager : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if (semaTriggered) return;
+            semaTriggered = true;
         if (other.CompareTag("AstTag"))
         {
             Debug.Log("got hit by ast");
-            gameManager.lives--;
+            gameData.shipLives--;
             
             Instantiate(destroyedParticles, transform.position, Quaternion.identity);
-            if (gameManager.lives < 0)
+            if (gameData.shipLives < 0)
             {
                 Debug.Log("devestated hit by ast");
                 Destroy(gameObject);
@@ -153,7 +152,7 @@ public class ShipManager : MonoBehaviour
         // Rigidbody2D bulletObj = Instantiate(bulletPrefab, bulletSpawner.position, Quaternion.identity);
         // bulletObj.AddForce(bulletSpeed * shipRigidbody2D.transform.up, ForceMode2D.Impulse);
         BulletScript bullet = createPoolBullet();
-        bullet.rb.AddForce(bulletSpeed * shipRigidbody2D.transform.up, ForceMode2D.Impulse);
+        bullet.rb.AddForce(gameData.bulletSpeed * shipRigidbody2D.transform.up, ForceMode2D.Impulse);
     }
 
     BulletScript createPoolBullet()
@@ -181,7 +180,7 @@ public class ShipManager : MonoBehaviour
         {
             Vector2 dir = (Vector2)(Quaternion.Euler(0,0,i) * Vector2.right);
             BulletScript bulletObj = createPoolBullet();
-            bulletObj.rb.AddForce(bulletSpeed * dir, ForceMode2D.Impulse);
+            bulletObj.rb.AddForce(gameData.bulletSpeed * dir, ForceMode2D.Impulse);
         }
     }
 

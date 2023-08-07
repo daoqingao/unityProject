@@ -6,23 +6,20 @@ using UnityEngine;
 using UnityEngine.Pool;
 using UnityEngine.Serialization;
 
-public class GameManager : MonoBehaviour
+public class AsteroidManager : MonoBehaviour
 {
     // Start is called before the first frame update
 
     public int asteroidCount = 0;
-    private int astInitSize = 3;
-    
-    public int level = 0;
-    public int score = 0;
-    public int lives = 3;
+
 
     [SerializeField] //this only works because we are referencing to the asteroid script that exist in that gameobject....
     public AsteroidScript astScript;
     public TMP_Text guiText;
 
-    private Vector2 astSpawn = new Vector2(200, 0);
     public ObjectPool<AsteroidScript> astPool;
+    [SerializeField]
+    public GameData gameData;
     
     // Update is called once per frame
     void Start()
@@ -31,7 +28,7 @@ public class GameManager : MonoBehaviour
             () =>
             {
                 AsteroidScript asteroidScript = Instantiate(astScript);
-                asteroidScript.gameManager = this;
+                asteroidScript.asteroidManager = this;
                 return asteroidScript;
             } //what to do on instantiate
             , ast =>
@@ -51,25 +48,25 @@ public class GameManager : MonoBehaviour
     {
         if (asteroidCount == 0)
         {
-            level++;
-            int numAsteroids = 2 + (2 * level);
+            gameData.level++;
+            int numAsteroids = 2 + (2 * gameData.level);
             for (int i = 0; i < numAsteroids; i++)
             {
                 spawnAsteroid();
             }
         }
 
-        guiText.text = " Score: " + score +
-                       "\n Level: " + level +
-                       "\n Lives: " + lives +
+        guiText.text = " Score: " + gameData.score +
+                       "\n Level: " + gameData.level +
+                       "\n Lives: " + gameData.shipLives +
                        "\n # Left: " + asteroidCount;
     }
     void spawnAsteroid()
     {
         float offX = Random.Range(-1f, 1f); //
         float offY = Random.Range(-1f, 1f);
-        Vector3 spawnPos = new Vector3(astSpawn.x+offX,astSpawn.y+offY,0f);
-        createPoolAst(astInitSize,spawnPos);
+        Vector3 spawnPos = new Vector3(gameData.astSpawnLoc.x+offX,gameData.astSpawnLoc.y+offY,0f);
+        createPoolAst(gameData.astInitSize,spawnPos);
     }
 
 
