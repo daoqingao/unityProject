@@ -190,6 +190,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e827290b462f66b4d962970c9b488232, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  size: 3
-  gameManager: {fileID: 0}
+  asteroidManager: {fileID: 0}
+  semaTriggered: 0
+  rb: {fileID: 8476494706932821737}
   destroyedParticles: {fileID: 3306571795474228976, guid: 12ebe1ae435043443987c5d4ce108cea, type: 3}

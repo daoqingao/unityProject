@@ -1,27 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
-using TMPro;
 using UnityEngine;
 using UnityEngine.Pool;
 using UnityEngine.Serialization;
 
 public class AsteroidManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-
-    public int asteroidCount = 0;
-
-
-    [SerializeField] //this only works because we are referencing to the asteroid script that exist in that gameobject....
     public AsteroidScript astScript;
-    public TMP_Text guiText;
-
     public ObjectPool<AsteroidScript> astPool;
-    [SerializeField]
     public GameData gameData;
-    
-    // Update is called once per frame
     void Start()
     {
         astPool = new ObjectPool<AsteroidScript>(
@@ -29,6 +17,7 @@ public class AsteroidManager : MonoBehaviour
             {
                 AsteroidScript asteroidScript = Instantiate(astScript);
                 asteroidScript.asteroidManager = this;
+                // asteroidScript.gameData = gameData;
                 return asteroidScript;
             } //what to do on instantiate
             , ast =>
@@ -46,46 +35,32 @@ public class AsteroidManager : MonoBehaviour
     }
     void Update()
     {
-        if (asteroidCount == 0)
-        {
-            gameData.level++;
-            int numAsteroids = 2 + (2 * gameData.level);
-            for (int i = 0; i < numAsteroids; i++)
-            {
-                spawnAsteroid();
-            }
-        }
-
-        guiText.text = " Score: " + gameData.score +
-                       "\n Level: " + gameData.level +
-                       "\n Lives: " + gameData.shipLives +
-                       "\n # Left: " + asteroidCount;
     }
-    void spawnAsteroid()
+    public void spawnAsteroid()
     {
         float offX = Random.Range(-1f, 1f); //
-        float offY = Random.Range(-1f, 1f);
+        float offY = Random.Range(-1f, 1f);      
         Vector3 spawnPos = new Vector3(gameData.astSpawnLoc.x+offX,gameData.astSpawnLoc.y+offY,0f);
-        createPoolAst(gameData.astInitSize,spawnPos);
+        createPoolAst(gameData.astInitSize,spawnPos,gameData.calculateThisStageIndivAstMaxHp());
     }
 
 
     public void destroyPoolAst(GameObject ast)
     {
         astPool.Release(ast.GetComponent<AsteroidScript>());
-        asteroidCount--;
+        gameData.asteroidCount--;
     }
     public void destroyPoolAst(AsteroidScript ast)
     {
         astPool.Release(ast);
-        asteroidCount--;
+        gameData.asteroidCount--;
     }
 
-    public AsteroidScript createPoolAst(int size,Vector2 pos)
+    public AsteroidScript createPoolAst(int size,Vector2 pos, long astHp)
     {
         AsteroidScript astScript = astPool.Get();
-        asteroidCount++;
-        astScript.initAst(size,pos);
+        gameData.asteroidCount++;
+        astScript.initAst(size,pos, astHp);
         return astScript;
     }
 }
