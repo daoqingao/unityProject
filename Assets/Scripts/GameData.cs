@@ -34,9 +34,15 @@ public class GameData : MonoBehaviour
     //bullet related
     public float bulletSpeed = 10f;
     public int bulletDmg = 2;
+
+    public bool spawnAst = true;
     
+    //debug related.
+
+    public bool astNoMove = true;
     void Start()
     {
+        astNoMove = true;
         astToSpawnPerLevel = 3;
     }
 

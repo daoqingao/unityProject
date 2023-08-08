@@ -20,7 +20,7 @@ public class AsteroidScript : MonoBehaviour
     [FormerlySerializedAs("gameManager")] public AsteroidManager asteroidManager;
     public bool semaTriggered = false;
     public Rigidbody2D rb;
-    
+
     // public GameData gameData;
 
     [SerializeField] private ParticleSystem destroyedParticles;
@@ -34,7 +34,9 @@ public class AsteroidScript : MonoBehaviour
         this.semaTriggered = false;
         this.size = size;
         transform.position = position;
-            
+
+        if (asteroidManager.gameData.astNoMove)
+            return;
         transform.localScale = 0.8f * size * Vector3.one;
         Vector2 initialDirection = new Vector2(Random.value, Random.value).normalized;
         float initialSpeed = Random.Range(4f, 5f)/size;
@@ -48,10 +50,7 @@ public class AsteroidScript : MonoBehaviour
             // if (collision.CompareTag("BulletTag")) // || collision.CompareTag("ShipTag") //asteroid dont get destroyed when we crash into it ok.
                 if (collision.CompareTag("BulletTag"))
                 {
-                    var x= collision.gameObject.GetComponent<BulletScript>();
-                    x.DestroyPoolBullet();
-
-
+                    collision.gameObject.GetComponent<BulletScript>().DestroyPoolBullet();
                     var dmgToTake = Math.Min(asteroidManager.gameData.bulletDmg, astHp);
                     astHp-=dmgToTake;
                     asteroidManager.gameData.thisStageTotalAstHpCurrent -= dmgToTake;

@@ -50,22 +50,25 @@ public class ShipManager : MonoBehaviour
             {
                 BulletScript bullet = Instantiate(bulletPrefab);
                 bullet.shipManager = this;
-                bullet.rb = bullet.GetComponent<Rigidbody2D>();
+                bullet.gameObject.SetActive(true);
+                bullet.bulletPool = bulletPool;
                 return bullet;
             } //what to do on instantiate
             , bullet =>
             {
                 bullet.gameObject.SetActive(true);
-                bullet.rb = bullet.GetComponent<Rigidbody2D>();
             },
             bullet =>
             {
                 bullet.gameObject.SetActive(false);
             }, bullet =>
             {
+                // bullet.enabled = false;
+                // bullet.gameObject.SetActive(false);
                 //i am actually not sure how to fix this.
                 //sometimes the bullets are destroyed multiple times i suppose
-                // Destroy(bullet.gameObject);
+                // Debug.Log("called to be destroyed");
+                Destroy(bullet.gameObject);
             }, false, 1000, 1000);
     }
 
@@ -132,7 +135,6 @@ public class ShipManager : MonoBehaviour
         {
             Debug.Log("got hit by ast");
             gameData.shipLives--;
-            
             Instantiate(destroyedParticles, transform.position, Quaternion.identity);
             if (gameData.shipLives < 0)
             {
@@ -149,8 +151,6 @@ public class ShipManager : MonoBehaviour
 
     void regularAttack()
     {
-        // Rigidbody2D bulletObj = Instantiate(bulletPrefab, bulletSpawner.position, Quaternion.identity);
-        // bulletObj.AddForce(bulletSpeed * shipRigidbody2D.transform.up, ForceMode2D.Impulse);
         BulletScript bullet = createPoolBullet();
         bullet.rb.AddForce(gameData.bulletSpeed * shipRigidbody2D.transform.up, ForceMode2D.Impulse);
     }
@@ -159,21 +159,9 @@ public class ShipManager : MonoBehaviour
     {
         BulletScript bullet = bulletPool.Get();
         bullet.transform.position = bulletSpawner.position;
-        StartCoroutine(destroyPoolBulletCountDown(bullet));
         return bullet;
     }
-    public IEnumerator destroyPoolBulletCountDown(BulletScript bullet)
-    {
-        yield return new WaitForSeconds(1.5f);
-        DestroyPoolBullet(bullet);
-    }
 
-    public void DestroyPoolBullet(BulletScript bullet)
-    {
-        StopCoroutine(destroyPoolBulletCountDown(bullet));
-        bulletPool.Release(bullet);
-        
-    }
     void coneAttack()
     {
         for (var i = 0; i < 360; i=i+30)
