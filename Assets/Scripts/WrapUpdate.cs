@@ -4,10 +4,16 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 public class WrapUpdate : MonoBehaviour
-    {
+{
+        private Camera idk;
+        private void Start()
+        {
+            idk = Camera.main;
+        }
+
         private void Update()
         {
-            Vector3 viewportPos = Camera.main.WorldToViewportPoint(transform.position);
+            Vector3 viewportPos = idk.WorldToViewportPoint(transform.position);
             Vector3 moveAdj = Vector3.zero;
             if (viewportPos.x < 0)
             {
@@ -26,6 +32,6 @@ public class WrapUpdate : MonoBehaviour
                 moveAdj.y -= 1;
             }
 
-            transform.position = Camera.main.ViewportToWorldPoint(viewportPos + moveAdj);
+            transform.position = idk.ViewportToWorldPoint(viewportPos + moveAdj);
         }
     }

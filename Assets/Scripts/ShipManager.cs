@@ -116,11 +116,9 @@ public class ShipManager : MonoBehaviour
     {
         if (isAlive && isAccelerating)
         {
-            // Debug.Log(accelVector);
             shipRigidbody2D.AddForce(gameData.shipAccelSpeed * accelVector);
             shipRigidbody2D.velocity = Vector2.ClampMagnitude(shipRigidbody2D.velocity, gameData.shipMaxVelSpeed);
             shipRigidbody2D.transform.Rotate(new Vector3(accelVector.x,accelVector.y,0));
-
             Quaternion toRotation = Quaternion.LookRotation(Vector3.forward, accelVector);
             shipRigidbody2D.transform.rotation = Quaternion.RotateTowards(
                 shipRigidbody2D.transform.rotation, toRotation, 750f);

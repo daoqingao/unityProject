@@ -17,7 +17,6 @@ public class AsteroidManager : MonoBehaviour
             {
                 AsteroidScript asteroidScript = Instantiate(astScript);
                 asteroidScript.asteroidManager = this;
-                // asteroidScript.gameData = gameData;
                 return asteroidScript;
             } //what to do on instantiate
             , ast =>
