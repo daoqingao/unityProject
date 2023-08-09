@@ -39,15 +39,27 @@ public class GameData : MonoBehaviour
 
     //debug related.
     public bool astNoMove;
-    
+
+    public bool dev=false;
     //equipment related.
 
-    public List<Equipment> equipWeaponList;
-    public Equipment weapon;
-    public Equipment armor;
+    public List<Equipment> equipWeaponList=null;
+    public List<Equipment> equipArmorList=null;
+
+    public Equipment equpiedWeapon=null;
+    public Equipment equpiedArmor =null;
+
 
     void Start()
     {
+        
+        //well we are suppose to load in the data, probably somewhere here
+        equipWeaponList = new List<Equipment>();
+        equipArmorList = new List<Equipment>();
+        level = 1;
+        //
+        
+        dev = true;
         astNoMove = false;
         astToSpawnPerLevel = 3;
     }

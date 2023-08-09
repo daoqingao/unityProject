@@ -9,6 +9,13 @@ public class LevelManager : MonoBehaviour
     public EquipManager equipManager;
     void Update()
     {
+        if (gameData.dev)
+        {
+            if (Input.GetKey(KeyCode.Z))
+            {
+                equipManager.spawnNewEquip();
+            }
+        }
         if (gameData.asteroidCount == 0) //all got destroyed
         {
             

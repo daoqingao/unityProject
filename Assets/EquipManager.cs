@@ -4,12 +4,17 @@ using UnityEngine;
 
 public class EquipManager : MonoBehaviour
 {
-    // Start is called before the first frame update
 
-    public GameData gamedata;
+    public GameData gameData;
+    public EquipmentListManager equipList;
     public Equipment spawnNewEquip()
     {
+        
         Equipment a1 = ScriptableObject.CreateInstance<Equipment>();
+        a1.initEquipStats();
+
+        gameData.equipWeaponList.Add(a1);
+        equipList.refreshEquipView();
         return a1;
     }
 }
