@@ -86,4 +86,11 @@ public class GameData : MonoBehaviour
         float totalHpMax = numberOfAstWithChild * calculateThisStageIndivAstMaxHp();
         this.thisStageTotalAstHpMax = totalHpMax;
     }
+    
+    
+    //calculate user damage and stuff lol
+    public void calculateEquipmentValues()
+    {
+        bulletDmg = (int)equpiedWeapon.damage;
+    }
 }

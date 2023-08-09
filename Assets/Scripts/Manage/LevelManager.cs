@@ -19,14 +19,10 @@ public class LevelManager : MonoBehaviour
         if (gameData.asteroidCount == 0) //all got destroyed
         {
             
+            //get new gear every level i suuppose
             equipManager.spawnNewEquip();
             
-            
-            
             gameData.level++;
-            if (gameData.level >= 1) //from level 1 and onwards, beating the level means...
-            {
-            }
             gameData.calculateThisStageIndivAstMaxHp();
             gameData.calculateTotalStageAstHpMax(); //recalcuating the current level
             gameData.thisStageTotalAstHpCurrent = gameData.thisStageTotalAstHpMax; //resetting the hp.

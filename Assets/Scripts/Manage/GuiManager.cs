@@ -27,7 +27,9 @@ public class GuiManager : MonoBehaviour
                        "\n Lives: " + gameData.shipLives +
                        "\n # Left: " + gameData.asteroidCount +
         "\n cur hp: " + gameData.thisStageTotalAstHpCurrent +
-            "\n max hp: " + gameData.thisStageTotalAstHpMax 
-            ;
+            "\n max hp: " + gameData.thisStageTotalAstHpMax +
+                       "\n bullet dmg: " + gameData.bulletDmg
+
+                       ;
     }
 }

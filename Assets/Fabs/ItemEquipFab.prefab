@@ -87,8 +87,9 @@ GameObject:
   - component: {fileID: 7671992727730988844}
   - component: {fileID: 2469016684321264874}
   - component: {fileID: 128917763427023862}
+  - component: {fileID: 5758271660056060571}
   m_Layer: 5
-  m_Name: WeaponButton
+  m_Name: ItemEquipFab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -196,7 +197,36 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2469016684321264874}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &5758271660056060571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2044930625378110942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23b03aff20abc5d41ba92f3422dedeac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  equipmentData: {fileID: 0}
+  text: {fileID: 3848256145167782292}
+  img: {fileID: 1449810930843054060}
+  weaponSpriteImg: {fileID: 21300000, guid: 58324252368a561478d0cfe925b727c2, type: 3}
+  armorSpriteImg: {fileID: 21300000, guid: b9250cd6236d52c479797c1cd358f14a, type: 3}
 --- !u!1 &7469810441305255776
 GameObject:
   m_ObjectHideFlags: 0

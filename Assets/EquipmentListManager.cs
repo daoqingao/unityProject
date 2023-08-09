@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor;
 using UnityEngine;
 
 public class EquipmentListManager : MonoBehaviour
@@ -14,10 +15,10 @@ public class EquipmentListManager : MonoBehaviour
     }
     
     public GameData gameData;
-    public GameObject weaponButtonFab;
-    // Start is called before the first frame update
+    public ItemEquipFab itemEquipFab;
+    
     public EquipType selectedEquipType = EquipType.WEAPON; // we can show weapons initally first
-    public List<Equipment> currentDisplayingEquipList; 
+    public List<Equipment> currentDisplayingEquipList=null; 
 
     private void Start()
     {
@@ -37,22 +38,35 @@ public class EquipmentListManager : MonoBehaviour
             EquipType.WEAPON
             ? gameData.equipWeaponList
             : gameData.equipArmorList;
-        foreach (Equipment equip in currentDisplayingEquipList)
-        {
-            //implement the logics for equiping and stuff\
-            GameObject currentEquip = Instantiate(weaponButtonFab, transform);
-            TMP_Text  text = currentEquip.GetComponentInChildren<TMP_Text >();
-            text.text = "some sort of weapon description";
-        }        
-        
-    }
-    public void addEquipToList(Equipment equip)
-    {
+            refreshAllEquipText(); //i dont even know man, how else am i suppose to use these stupid ass buttons
     }
 
-    public void handleSelectWeaponOrArmorViewClick(string type)
+    public void refreshAllEquipText()
+    {
+        foreach (Equipment equip in currentDisplayingEquipList)
+        {
+            ItemEquipFab equipFab = Instantiate(itemEquipFab, transform);
+            equipFab.initItem(equip,selectedEquipType);
+            equipFab.equipListManager = this;
+        }       
+    }
+
+    public void handleDisplayWeaponOrArmor(string type)
     {
         selectedEquipType = type=="weapon"?EquipType.WEAPON:EquipType.ARMOR;
         refreshEquipView();
+    }
+
+    public void handleSelectWeapon(Equipment equip,EquipType type)
+    {
+        if (type == EquipType.WEAPON)
+        {
+            gameData.equpiedWeapon = equip;
+        }
+        else
+        {
+            gameData.equpiedArmor = equip;
+        }
+        gameData.calculateEquipmentValues();
     }
 }
