@@ -224,6 +224,7 @@ Transform:
   - {fileID: 3297114}
   - {fileID: 1725135354}
   - {fileID: 1203613302}
+  - {fileID: 626210994}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &519420028
@@ -318,6 +319,50 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &626210993
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 626210994}
+  - component: {fileID: 626210995}
+  m_Layer: 0
+  m_Name: EquipManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &626210994
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 626210993}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 486513693}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &626210995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 626210993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d8afa2682c4c2849b677c9a78a4fc63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &738062334
 GameObject:
   m_ObjectHideFlags: 0
@@ -546,6 +591,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   astManager: {fileID: 1495405642}
   gameData: {fileID: 1725135355}
+  equipManager: {fileID: 626210995}
 --- !u!1 &1242031981
 GameObject:
   m_ObjectHideFlags: 0
@@ -1253,12 +1299,14 @@ MonoBehaviour:
   astInitSize: 3
   astSpawnLoc: {x: 200, y: 0}
   astDupRate: 2
-  astHp: 3
+  astStageMaxHp: 3
   shipLives: 3
   shipAccelSpeed: 20
   shipMaxVelSpeed: 20
   bulletSpeed: 10
   bulletDmg: 2
+  spawnAst: 1
+  astNoMove: 1
 --- !u!1 &2104740988
 GameObject:
   m_ObjectHideFlags: 0

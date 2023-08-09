@@ -11,7 +11,7 @@ public class PlayMainTest
     public void PlayMainTestSimplePasses()
     {
         // Use the Assert class to test conditions
-        AsteroidScript ast = new AsteroidScript();
+        // AsteroidScript ast = new AsteroidScript();
     }
 
     // A UnityTest behaves like a coroutine in Play Mode. In Edit Mode you can use

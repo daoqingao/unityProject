@@ -7,24 +7,26 @@ using UnityEngine.Serialization;
 public class GameData : MonoBehaviour
 {
     
-    
+       
     //level related
-    public int level = 0;
-    [FormerlySerializedAs("score")] public int astDestroyed = 0;
+    public int level = 1;
+    public int astDestroyed = 0;
     public int asteroidCount = 0;
 
-    public int astToSpawnPerLevel = 4;
-    public float thisStageTotalAstHpMax = 1;
-    public float thisStageTotalAstHpCurrent = 1;
+    public int astToSpawnPerLevel = 1;
+    public float thisStageTotalAstHpMax; //generated values 
+    public float thisStageTotalAstHpCurrent;
+    
+    //math and scaling related
+
+    public float scalingAstMaxHp = 1.1f;
+    
     
     //individual ast related
     public int astInitSize = 3;
     public Vector2 astSpawnLoc = new Vector2(200, 0);
     public int astDupRate = 2; //split into 2 on destruction
-    [FormerlySerializedAs("astHp")] public long astStageMaxHp = 3;
-    
-    
-
+    public long astStageMaxHp = -1;
     
     //ship related
     public int shipLives = 3;
@@ -33,16 +35,20 @@ public class GameData : MonoBehaviour
     
     //bullet related
     public float bulletSpeed = 10f;
-    public int bulletDmg = 2;
+    public int bulletDmg = 1;
 
-    public bool spawnAst = true;
-    
     //debug related.
+    public bool astNoMove;
+    
+    //equipment related.
 
-    public bool astNoMove = true;
+    public List<Equipment> equipWeaponList;
+    public Equipment weapon;
+    public Equipment armor;
+
     void Start()
     {
-        astNoMove = true;
+        astNoMove = false;
         astToSpawnPerLevel = 3;
     }
 
@@ -55,7 +61,7 @@ public class GameData : MonoBehaviour
     //calculate the asthp for the level.
     public long calculateThisStageIndivAstMaxHp()
     {
-        this.astStageMaxHp = this.level * 2;
+        this.astStageMaxHp = (long)Math.Pow(this.level,scalingAstMaxHp);
         return astStageMaxHp;
     }
 
@@ -68,16 +74,4 @@ public class GameData : MonoBehaviour
         float totalHpMax = numberOfAstWithChild * calculateThisStageIndivAstMaxHp();
         this.thisStageTotalAstHpMax = totalHpMax;
     }
-    
-    //might not be needed
-    // public float getThisStageTotalAstHpCurrent()
-    // {
-    //     return totalStageAstHpCurrent;
-    // }
-    //
-    // //might not be needed...
-    // public float getthisStageTotalAstHpMax()
-    // {
-    //     return totalStageAstHpMax;
-    // }
 }

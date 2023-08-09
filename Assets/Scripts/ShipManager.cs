@@ -52,14 +52,17 @@ public class ShipManager : MonoBehaviour
                 bullet.shipManager = this;
                 bullet.gameObject.SetActive(true);
                 bullet.bulletPool = bulletPool;
+                bullet.rb.velocity = Vector2.zero;
                 return bullet;
             } //what to do on instantiate
             , bullet =>
             {
                 bullet.gameObject.SetActive(true);
+                bullet.rb.velocity = Vector2.zero;
             },
             bullet =>
             {
+                bullet.rb.velocity = Vector2.zero;
                 bullet.gameObject.SetActive(false);
             }, bullet =>
             {
@@ -68,7 +71,7 @@ public class ShipManager : MonoBehaviour
                 //i am actually not sure how to fix this.
                 //sometimes the bullets are destroyed multiple times i suppose
                 // Debug.Log("called to be destroyed");
-                Destroy(bullet.gameObject);
+                // Destroy(bullet.gameObject);
             }, false, 1000, 1000);
     }
 
